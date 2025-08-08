@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -8,6 +8,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return 'hello spoddub'
+    return render_template('base.html')

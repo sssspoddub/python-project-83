@@ -8,4 +8,4 @@ def is_valid_url(url_input):
 
 def normalize_url(url_input):
     parsed = urlparse(url_input)
-    return f'{parsed.scheme}://{parsed.netloc}'
+    return f"{parsed.scheme}://{parsed.netloc}"

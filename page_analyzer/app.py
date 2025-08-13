@@ -5,7 +5,7 @@ from page_analyzer import database, checker, validator
 
 load_dotenv()
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret')
 
 
 @app.route('/', methods=['GET'])

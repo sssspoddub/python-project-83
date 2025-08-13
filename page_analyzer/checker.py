@@ -13,18 +13,10 @@ def check_url(url):
         status_code = response.status_code
         html_content = response.text
 
-        h1_match = re.search(
-            r'<h1[^>]*>(.*?)</h1>',
-            html_content,
-            re.DOTALL | re.IGNORECASE
-        )
+        h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_content, re.DOTALL | re.IGNORECASE)
         h1 = h1_match.group(1).strip() if h1_match else ''
 
-        title_match = re.search(
-            r'<title[^>]*>(.*?)</title>',
-            html_content,
-            re.DOTALL | re.IGNORECASE
-        )
+        title_match = re.search(r'<title[^>]*>(.*?)</title>', html_content, re.DOTALL | re.IGNORECASE)
         title = title_match.group(1).strip() if title_match else ''
 
         description_match = re.search(

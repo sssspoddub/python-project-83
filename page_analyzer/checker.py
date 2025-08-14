@@ -3,34 +3,33 @@ import requests
 
 
 class CheckerError(Exception):
-    pass
+    """Ошибка проверки страницы (сетевые/HTTP проблемы)."""
 
 
-TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.IGNORECASE | re.DOTALL)
-H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.IGNORECASE | re.DOTALL)
-DESC_RE = re.compile(
-    r'<meta\s+name=["\']description["\']\s+content=["\'](.*?)["\']',
-    re.IGNORECASE,
-)
+_FLAGS = re.IGNORECASE | re.DOTALL
+
+_H1_RE = r"<h1[^>]*>(.*?)</h1>"
+_TITLE_RE = r"<title[^>]*>(.*?)</title>"
+_DESC_RE = r'<meta\s+name=["\']description["\']\s+content=["\'](.*?)["\']'
+
+
+def _first_match(pattern: str, text: str) -> str:
+    matches = re.findall(pattern, text, flags=_FLAGS)
+    return matches[0].strip() if matches else ""
 
 
 def check_url(url: str):
     try:
-        resp = requests.get(url, timeout=10)
-        resp.raise_for_status()
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
     except requests.RequestException as err:
         raise CheckerError from err
 
-    html = resp.text
-    status_code = resp.status_code
+    html = response.text
+    status_code = response.status_code
 
-    h1_match = H1_RE.search(html)
-    h1 = h1_match.group(1).strip() if h1_match else ""
-
-    title_matches = TITLE_RE.findall(html)
-    title = title_matches[-1].strip() if title_matches else ""
-
-    desc_match = DESC_RE.search(html)
-    description = desc_match.group(1).strip() if desc_match else ""
+    h1 = _first_match(_H1_RE, html)
+    title = _first_match(_TITLE_RE, html)
+    description = _first_match(_DESC_RE, html)
 
     return status_code, h1, title, description

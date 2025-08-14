@@ -1,6 +1,7 @@
 import os
-import psycopg2
 from datetime import datetime
+
+import psycopg2
 
 
 def get_db_connection():
@@ -131,7 +132,14 @@ def add_check(url_id, status_code, h1, title, description):
                         description, created_at)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """,
-                    (url_id, status_code, h1, title, description, datetime.now()),
+                    (
+                        url_id,
+                        status_code,
+                        h1,
+                        title,
+                        description,
+                        datetime.now(),
+                    ),
                 )
                 conn.commit()
     except psycopg2.Error:

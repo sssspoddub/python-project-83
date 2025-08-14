@@ -1,4 +1,5 @@
 from urllib.parse import urlparse
+
 from validators import url as validate_url
 
 

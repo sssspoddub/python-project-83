@@ -1,3 +1,4 @@
 .env
-.python-version
 __pycache__
+page_analyzer/__pycache__
+.python-version

@@ -25,7 +25,7 @@ def urls():
         if not validator.is_valid_url(url_input):
             msg = "Заполните это поле" if not url_input else "Некорректный URL"
             flash(msg, "danger")
-            return render_template("index.html"), 422
+            return redirect(url_for("index"))
 
         parsed_url = validator.normalize_url(url_input)
         url_id, error = database.add_url(parsed_url)

@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, url_for
 
-from page_analyzer import checker, database, validator
-from page_analyzer.checker import CheckerError
+from page_analyzer import database, parser, validator
+from page_analyzer.parser import CheckerError
 
 load_dotenv()
 
@@ -51,7 +51,7 @@ def url_detail(id):
     if request.method == "POST":
         try:
             target = url["name"]
-            status_code, h1, title, description = checker.check_url(target)
+            status_code, h1, title, description = parser.check_url(target)
         except CheckerError:
             flash("Произошла ошибка при проверке", "danger")
         else:
